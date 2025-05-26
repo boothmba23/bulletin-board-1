@@ -1,0 +1,62 @@
+<h1><%= @board.name %></h1>
+
+<h2>Add a post</h2>
+
+<%= form_with model: @post, url: posts_path, local: true do |f| %>
+  <%= f.hidden_field :board_id, value: @board.id %>
+
+  <div>
+    <%= f.label :title, "Title" %><br>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :body, "Body" %><br>
+    <%= f.text_area :body %>
+  </div>
+
+  <div>
+    <%= f.label :expires_on, "Expires on" %><br>
+    <%= f.date_field :expires_on %>
+  </div>
+
+  <div>
+    <%= f.submit "Add post" %>
+  </div>
+<% end %>
+
+<hr>
+
+<h2>Active Posts</h2>
+
+<% active_posts = @board.posts.where("expires_on >= ?", Date.today).order(created_at: :desc) %>
+<% if active_posts.any? %>
+  <ul>
+    <% active_posts.each do |post| %>
+      <li>
+        <strong><%= post.title %></strong><br>
+        <%= post.body %><br>
+        Expires on: <%= post.expires_on %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No active posts.</p>
+<% end %>
+
+<h2>Expired Posts</h2>
+
+<% expired_posts = @board.posts.where("expires_on < ?", Date.today).order(created_at: :desc) %>
+<% if expired_posts.any? %>
+  <ul>
+    <% expired_posts.each do |post| %>
+      <li>
+        <strong><%= post.title %></strong><br>
+        <%= post.body %><br>
+        Expired on: <%= post.expires_on %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No expired posts.</p>
+<% end %>

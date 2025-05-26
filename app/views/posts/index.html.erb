@@ -1,0 +1,21 @@
+<h1>All Posts</h1>
+
+<h2>Active Posts</h2>
+<% @active_posts.each do |post| %>
+  <div>
+    <h3><%= link_to post.title, post_path(post) %></h3>
+    <p><%= post.body %></p>
+    <p>Expires on: <%= post.expires_on %></p>
+    <p>Board: <%= link_to post.board.name, board_path(post.board) %></p>
+  </div>
+<% end %>
+
+<h2>Expired Posts</h2>
+<% @expired_posts.each do |post| %>
+  <div>
+    <h3><%= link_to post.title, post_path(post) %></h3>
+    <p><%= post.body %></p>
+    <p>Expired on: <%= post.expires_on %></p>
+    <p>Board: <%= link_to post.board.name, board_path(post.board) %></p>
+  </div>
+<% end %>

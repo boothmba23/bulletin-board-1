@@ -14,3 +14,11 @@
     <%= yield %>
   </body>
 </html>
+
+<% if notice.present? %>
+  <p style="color: green;"><%= notice %></p>
+<% end %>
+
+<% if alert.present? %>
+  <p style="color: red;"><%= alert %></p>
+<% end %>
